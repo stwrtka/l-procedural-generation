@@ -1,40 +1,47 @@
 import turtle
 
-#functions need
-#l-system (might output a string)
-#smth to interpert string from the l-system and calls the draw function
-
-#things that SQL can effect direction(if it goes forward, left, right), lenght(?) colour, size of leaf(?)
-
 turtle = turtle.Turtle()
 turtle.hideturtle()
 turtle.home()
 
-plant = 'FFFF-FFF-F-F+FFF-F-FFF'
-#grammer 
-#axiom
-
-#[] -->start and end of the branch
+axiom = "FF"
+string = axiom
+iterate = 3
 angle = 90
 
-def l_system(): #going to create a string 
-    for type in plant:
-        draw_plant(type, angle)
+#rules
+#F = 
+#- =
+#+ =
+#L
+#[ = start branch
+#] = end branch
 
-#any time you see a certain letter it should be this thing instead; F -> FF+F-[+-F]
+def replace_variable(variable):
+    if variable == 'F':
+        return 'FF+F-[+-F]'
+    elif variable == 'L':
+        return 'L-F'
 
-def draw_plant(type, angle):
-    if type == 'F': #forward
-        turtle.forward(20)
-    elif type == '-': #left
-        turtle.left(angle)
-    elif type == '+': #right
-        turtle.right(angle)
-    elif type == 'L': #leaf
-        turtle.showturtle()
-        turtle.stamp()
-        turtle.hideturtle()
+def expand_string(string):
+    new_string = ''
+    for i in string:
+        new_string = new_string + replace_variable(str(i))
+    return new_string
 
-l_system()
+new_string = expand_string(axiom)
+print(new_string)
 
+def draw(string):
+    for i in string:
+        if i == 'F': #forward
+            turtle.forward(20)
+        elif i == '-': #left
+            turtle.left(angle)
+        elif i == '+': #right
+            turtle.right(angle)
+        elif i == 'L': #leaf
+            turtle.showturtle()
+            turtle.stamp()
+        i+= 1
 turtle.getscreen()._root.mainloop()
