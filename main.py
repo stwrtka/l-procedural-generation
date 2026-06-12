@@ -5,7 +5,6 @@ turtle.hideturtle()
 turtle.home()
 
 axiom = "FF"
-string = axiom
 iterate = 3
 angle = 90
 
@@ -22,15 +21,14 @@ def replace_variable(variable):
         return 'FF+F-[+-F]'
     elif variable == 'L':
         return 'L-F'
+    else:
+        return variable
 
 def expand_string(string):
-    new_string = ''
-    for i in string:
-        new_string = new_string + replace_variable(str(i))
-    return new_string
-
-new_string = expand_string(axiom)
-print(new_string)
+    result = ""
+    for var in string:
+        result += replace_variable(var)
+    return result
 
 def draw(string):
     for i in string:
@@ -44,4 +42,16 @@ def draw(string):
             turtle.showturtle()
             turtle.stamp()
         i+= 1
-turtle.getscreen()._root.mainloop()
+
+def iterate(string, count):
+    if count == 0:
+        print(string)
+        return str(string)
+    else:
+        count -=1
+        string = expand_string(string)
+        iterate(string, count)
+
+print(iterate(axiom, 2))
+
+#turtle.getscreen()._root.mainloop()
