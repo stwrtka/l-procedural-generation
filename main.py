@@ -2,11 +2,12 @@ import turtle
 
 turtle = turtle.Turtle()
 turtle.hideturtle()
-turtle.speed(100)
+turtle.speed(10)
 
-axiom = "FF"
+axiom = "F+F+F+F"
 angle = 90
-len = 3
+len = 10
+postions = []
 
 #rules
 #F = 
@@ -18,7 +19,7 @@ len = 3
 
 def replace_variable(variable):
     if variable == 'F':
-        return 'F-F+F+F-F'
+        return 'F+F-F-FF+F+F-F'
     elif variable == 'L':
         return 'L-F'
     else:
@@ -41,6 +42,11 @@ def draw(string):
         elif i == 'L': #leaf
             turtle.showturtle()
             turtle.stamp()
+        elif i == "[":
+            postions.append(turtle.position())
+        elif i == "]":
+            if postions:
+                turtle.goto(postions.pop())
         else:
             continue
 
@@ -48,9 +54,10 @@ def iterate(string, count):
     if count == 0:
         return
     else:
+        print(string)
         draw(string)
         string = expand_string(string)
-        iterate(string, count)  
+        iterate(string, count-1)  
 
-iterate(axiom, 2)
+iterate(axiom, 3)
 turtle.getscreen()._root.mainloop()
