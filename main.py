@@ -1,40 +1,15 @@
 import turtle
 import mysql.connector
 from mysql.connector import errorcode
-while True:
-    username = input("Enter your MySQL username: ")
-    password = input("Enter your MySQL password: ")
-
-    try:
-        my_database = mysql.connector.connect(
-            host = "",
-            user = str(username),
-            password= str(password)
-        )
-        break
-    except mysql.connector.Error as error:
-        print(f"{error}")
-    finally:
-        print("Try again")
-
-my_cursor = my_database.cursor()
-my_cursor.execute("SHOW DATABASES")
-
-for i in my_cursor:
-    print(i)
-
-my_database.close()
 
 turtle = turtle.Turtle()
 turtle.hideturtle()
 turtle.left(90)
 turtle.speed(10)
 
-axiom = "F+F+F+F"
 angle = 90
 len = 25
 postions = []
-
 
 def replace_variable(variable):
     if variable == 'F':
@@ -75,6 +50,45 @@ def iterate(string, count):
         string = expand_string(string)
         iterate(string, count-1)  
 
+#MySQL login
+while True:
+    username = input("Enter your MySQL username: ")
+    password = input("Enter your MySQL password: ")
+    database = input("Enter database: ")
+    try:
+        my_database = mysql.connector.connect(
+            host = "",
+            user = str(username),
+            password= str(password),
+            database=str(database)
+        )
+        break
+    except mysql.connector.Error as err:
+        print(f"{err}")
+
+my_cursor = my_database.cursor()
+query = input("Enter a query: ") #user can enter any query
+
+while True: #runs until a vaild query
+    try: 
+        my_cursor.execute(query)
+        break
+    except mysql.connector.Error as err:
+        print(f"{err}")
+
+for x in my_cursor: #prints row results
+    print(x)
+
+#Deciding what the axiom will be by checking if the numebr of rows in they query result is even or odd
+#if the query result is even axiom = FF
+#if query result is odd axiom = F
+if my_cursor.rowcount % 2 == 0:
+    axiom = "FF"
+else:
+    axiom = "F"
+print(axiom)
+
 iterate(axiom, 2)
+
 turtle.getscreen()._root.mainloop()
 my_cursor.close()
