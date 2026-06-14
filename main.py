@@ -1,4 +1,29 @@
 import turtle
+import mysql.connector
+from mysql.connector import errorcode
+while True:
+    username = input("Enter your MySQL username: ")
+    password = input("Enter your MySQL password: ")
+
+    try:
+        my_database = mysql.connector.connect(
+            host = "",
+            user = str(username),
+            password= str(password)
+        )
+        break
+    except mysql.connector.Error as error:
+        print(f"{error}")
+    finally:
+        print("Try again")
+
+my_cursor = my_database.cursor()
+my_cursor.execute("SHOW DATABASES")
+
+for i in my_cursor:
+    print(i)
+
+my_database.close()
 
 turtle = turtle.Turtle()
 turtle.hideturtle()
@@ -50,5 +75,6 @@ def iterate(string, count):
         string = expand_string(string)
         iterate(string, count-1)  
 
-iterate(axiom, 20)
+iterate(axiom, 2)
 turtle.getscreen()._root.mainloop()
+my_cursor.close()
