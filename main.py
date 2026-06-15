@@ -72,6 +72,7 @@ query = input("Enter a query: ") #user can enter any query
 while True: #runs until a vaild query
     try: 
         my_cursor.execute(query)
+        print("RAN")
         break
     except mysql.connector.Error as err:
         print(f"{err}")
