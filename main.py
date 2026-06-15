@@ -8,7 +8,7 @@ turtle.left(90)
 turtle.speed(10)
 
 angle = 90
-len = 25
+len = 10
 postions = []
 
 def replace_variable(variable):
@@ -54,21 +54,27 @@ def iterate(string, count):
 while True:
     username = input("Enter your MySQL username: ")
     password = input("Enter your MySQL password: ")
-    database = input("Enter database: ")
+   
     try:
         my_database = mysql.connector.connect(
             host = "",
             user = str(username),
-            password= str(password),
-            database=str(database)
+            password= str(password)
         )
         break
     except mysql.connector.Error as err:
         print(f"{err}")
 
 my_cursor = my_database.cursor()
-query = input("Enter a query: ") #user can enter any query
+my_cursor.execute("SHOW DATABASES")
 
+for x in my_cursor:
+    print(x)
+
+database = input("\nEnter database: ")
+my_cursor.execute("USE " + database)
+
+query = input("Enter a query: ") #user can enter any query
 while True: #runs until a vaild query
     try: 
         my_cursor.execute(query)
@@ -89,7 +95,7 @@ else:
     axiom = "F"
 print(axiom)
 
-iterate(axiom, 2)
+iterate(axiom, 50)
 
 turtle.getscreen()._root.mainloop()
 my_cursor.close()
