@@ -56,18 +56,20 @@ for x in my_cursor: #prints row results
 
 #deciding what the axiom will be by checking if the numebr of rows in they query result is even or odd
 if my_cursor.rowcount % 2 == 0:
-    axiom = "FF" #if the query result is even
+    axiom = "FFFF" #if the query result is even
 else:
-    axiom = "F" #if query result is odd axiom = F
+    axiom = "FFF" #if query result is odd axiom = F
 
 import turtle #have to import after so the turtle will draw after the query result
 turtle = turtle.Turtle()
 turtle.hideturtle()
-turtle.left(90)
+turtle.penup()
+turtle.goto(0,200)
+turtle.pendown()
 turtle.speed(10)
 
-angle = 45 #angle the turtle will move when the character is -(left) or + (right) 
-len = 20 #length of the lines drawn
+angle = 22.5 #angle the turtle will move when the character is -(left) or + (right) 
+len = 10 #length of the lines drawn
 postions = [] #keeps track of postion before [ is drawn so when ] appears the turtle can jump back to that postion
 
 temp_query = query.split(" ")
@@ -138,7 +140,7 @@ def iterate(string, count): #this function calls the core functions (draw and ex
 
 variable_F = create_variable_grammer(temp_query)
 
-iterate(axiom, 20)
+iterate(axiom, 3)
 
 turtle.getscreen()._root.mainloop()
 my_cursor.close()
