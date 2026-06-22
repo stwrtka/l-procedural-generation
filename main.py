@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
-#MySQL login
-while True:
+
+while True: #Asking the user to login to MySQL. It will continue asking for their username and password until it's vaild
     username = input("Enter your MySQL username: ")
     password = input("Enter your MySQL password: ")
    
@@ -15,14 +15,14 @@ while True:
     except mysql.connector.Error as err:
         print(f"{err}")
 
-my_cursor = my_database.cursor()
-my_cursor.execute("SHOW DATABASES")
+my_cursor = my_database.cursor() 
+my_cursor.execute("SHOW DATABASES") #Showing the user all of the available databases they have in MySQL
 
-for x in my_cursor:
+for x in my_cursor: #Printing out the available databases to the terminal
     print(x)
 
-database = input("\nEnter database: ")
-while True: #runs until a vaild query
+while True: #Asking the user what database they want to use. It will run till a vaild database is chosen
+    database = input("\nEnter database: ") 
     try: 
         my_cursor.execute("USE " + database)
         break
@@ -30,8 +30,8 @@ while True: #runs until a vaild query
         print(f"{err}")
 
 
-query = input("Enter a query: ") #user can enter any query
-while True: #runs until a vaild query
+while True: #Asking the user to enter a query. It will run until a vail query is entered
+    query = input("Enter a query: ") 
     try: 
         my_cursor.execute(query)
         break
@@ -39,6 +39,7 @@ while True: #runs until a vaild query
         print(f"{err}")
 
 #list from: https://www.w3schools.com/SQL/sql_ref_keywords.asp
+#below is a list of all the keywords in MySQL
 key_words = ["ADD", "ADD CONSTRAINT", "ALL", "ALTER", "ALTER COLUMN", "AND", "ANY","AS", "ASC", 
              "BACKUP DATABASE", "BETWEEN", "CASE", "CHECK", "COLUMN", "CONSTRAINT", "CREATE", 
              "CREATE DATABASE", "CREATE INDEX", "CREATE OR REPLACE VIEW", "CREATE TABLE", 
@@ -51,16 +52,16 @@ key_words = ["ADD", "ADD CONSTRAINT", "ALL", "ALTER", "ALTER COLUMN", "AND", "AN
              "SELECT DISTINCT", "SELECT INTO", "SELECT TOP", "SET", "TABLE", "TOP", "TRUNCATE TABLE", 
              "UNION", "UNION ALL", "UNIQUE", "UPDATE", "VALUES", "VIEW", "WHERE"]
 
-for x in my_cursor: #prints row results
+for x in my_cursor: #Prints out all of the row results from the query to the terminal
     print(x)
 
-#deciding what the axiom will be by checking if the numebr of rows in they query result is even or odd
-if my_cursor.rowcount % 2 == 0:
-    axiom = "FFFF" #if the query result is even
-else:
-    axiom = "FFF" #if query result is odd axiom = F
+#If the number of results are even or odd will determine the intial string(axiom) used
+if my_cursor.rowcount % 2 == 0: #If the number of results are even
+    axiom = "FFFF" 
+else: #If the number of results are odd
+    axiom = "FFF" 
 
-import turtle #have to import after so the turtle will draw after the query result
+import turtle #Importing the turtle that will draw out the pattern. This has to be imported here so that the pop-up happens after the query result
 turtle = turtle.Turtle()
 turtle.hideturtle()
 turtle.penup()
@@ -68,12 +69,12 @@ turtle.goto(0,200)
 turtle.pendown()
 turtle.speed(10)
 
-angle = 22.5 #angle the turtle will move when the character is -(left) or + (right) 
-len = 10 #length of the lines drawn
-postions = [] #keeps track of postion before [ is drawn so when ] appears the turtle can jump back to that postion
+angle = 22.5 #Angle the turtle will move when the character is '-' (left) or '+' (right) 
+len = 10 #Length of the lines drawn
+postions = [] #Keeps track of postion before everything inside of'[' (open branch) is drawn. So when ']' (close branch) appears the turtle can jump back to postion where ''[' open branch was called
 
-temp_query = query.split(" ")
-def create_variable_grammer(temp_query):
+temp_query = query.split(" ") #Spliting the query up to look at each word in the query
+def create_variable_grammer(temp_query): #This function takes in the split up query and creates the defintion each variable has
     grammer =""
     open = 0
     options = 0
@@ -90,7 +91,7 @@ def create_variable_grammer(temp_query):
                 grammer += "F+F+F+F"
                 options += 1
             elif options == 1:
-                grammer+='F-[[X]+X]+F[+FX]-X'
+                grammer+='F-[L[LX]L+XL]+F[+FXL]-X'
                 options += 1
             else:
                 grammer += 'FF+F-F+F+FF'
@@ -98,27 +99,27 @@ def create_variable_grammer(temp_query):
     grammer+='F]'
     return grammer
 
-def replace_variable(variable): #this function takes in a single character and replaces it with a string
+def replace_variable(variable): #This function takes in a single character and replaces it with its respective defintion
     if variable == 'F':
         return variable_F
     else:
         return variable
 
-def expand_string(string): #this function takes in a string and calls replace_variable on every index
+def expand_string(string): #This function takes in a string and calls  replace_variable(which replaces the character with its defition) on every index
     result = ""
     for var in string:
         result += replace_variable(var)
     return result
 
-def draw(string): #this function takes in a string and draws based on the character at that index
+def draw(string): #This function takes in a string and draws based on the character at that index
     for i in string:
-        if i == 'F': #forward
+        if i == 'F': #Forward
             turtle.forward(len)
-        elif i == '-': #left
+        elif i == '-': #Left
             turtle.left(angle)
-        elif i == '+': #right
+        elif i == '+': #Right
             turtle.right(angle)
-        elif i == 'L': #leaf
+        elif i == 'L': #Leaf
             turtle.showturtle()
             turtle.stamp()
         elif i == "[": #start branch
@@ -129,16 +130,18 @@ def draw(string): #this function takes in a string and draws based on the charac
         else:
             continue
 
-def iterate(string, count): #this function calls the core functions (draw and expand_string) recursively for count times
+def iterate(string, count): #This function will recursively call itself until the number of recursions is 0. 
     if count == 0:
         return
     else:
-        print(string)
+        #Within each call the turtle will draw out the generated string. Then call for the string to be expanded again and draw out the expanded string on the next iteration
+
+        # print(string) #This prints out the current generated string 
         draw(string)
         string = expand_string(string)
         iterate(string, count-1)  
 
-variable_F = create_variable_grammer(temp_query)
+variable_F = create_variable_grammer(temp_query) #This is calling the function that will create defition(grammer) for a variable
 
 iterate(axiom, 3)
 
