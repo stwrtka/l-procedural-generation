@@ -57,9 +57,9 @@ for x in my_cursor: #Prints out all of the row results from the query to the ter
 
 #If the number of results are even or odd will determine the intial string(axiom) used
 if my_cursor.rowcount % 2 == 0: #If the number of results are even
-    axiom = "FFFF" 
+    axiom = "FFFF" #A diffrent stirng can be used to get a different result
 else: #If the number of results are odd
-    axiom = "FFF" 
+    axiom = "FFF" #A diffrent stirng can be used to get a different result
 
 import turtle #Importing the turtle that will draw out the pattern. This has to be imported here so that the pop-up happens after the query result
 turtle = turtle.Turtle()
@@ -88,13 +88,13 @@ def create_variable_grammer(temp_query): #This function takes in the split up qu
                 open = 0
         else:
             if options == 0:
-                grammer += "F+F+F+F"
+                grammer += "F+F+F+F" #A diffrent stirng can be used to get a different result
                 options += 1
             elif options == 1:
-                grammer+='F-[L[LX]L+XL]+F[+FXL]-X'
+                grammer+='F-[L[LX]L+XL]+F[+FXL]-X' #A diffrent stirng can be used to get a different result
                 options += 1
             else:
-                grammer += 'FF+F-F+F+FF'
+                grammer += 'FF+F-F+F+FF' #A diffrent stirng can be used to get a different result
                 options = 0
     grammer+='F]'
     return grammer
@@ -135,7 +135,6 @@ def iterate(string, count): #This function will recursively call itself until th
         return
     else:
         #Within each call the turtle will draw out the generated string. Then call for the string to be expanded again and draw out the expanded string on the next iteration
-
         # print(string) #This prints out the current generated string 
         draw(string)
         string = expand_string(string)
