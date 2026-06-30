@@ -142,7 +142,7 @@ def iterate(string, count): #This function will recursively call itself until th
 
 variable_F = create_variable_grammer(temp_query) #This is calling the function that will create defition(grammer) for a variable
 
-iterate(axiom, 3)
+iterate(axiom, 3) #starting string and number of times the rewrite should run
 
 turtle.getscreen()._root.mainloop()
 my_cursor.close()
